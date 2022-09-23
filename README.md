@@ -1,6 +1,8 @@
 # Fork
 
-This is a fork of @Charac's [astro-music](https://github.com/Charca/astro-music) to play with the new Navigation & Transition API on a projet based on [Astro](https://astro.build/).
+This is a fork of @Charca's [astro-music](https://github.com/Charca/astro-music) to play with the new Navigation & Transition API on a projet based on [Astro](https://astro.build/).
+
+His demo is available [here](https://astro-music.netlify.app/).
 
 # Typescript
 
