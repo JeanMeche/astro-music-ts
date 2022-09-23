@@ -6,4 +6,4 @@ His demo is available [here](https://astro-music.netlify.app/).
 
 # Typescript
 
-Since there is no Navigation & Transition API typescript definition, [I provided one](https://gist.github.com/JeanMeche/108ce377105b07146bc1887950f04e46). It's probably not complete yet, comments welcome.
+Since there is no Navigation & Transition API typescript definition, [I provided one](https://gist.github.com/JeanMeche/108ce377105b07146bc1887950f04e46). It's probably not complete yet, comments are welcome.
