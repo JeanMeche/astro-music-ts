@@ -1,11 +1,15 @@
 {
   "extends": "astro/tsconfigs/base",
   "compilerOptions": {
+    "strict": true,
     "types": [
       "astro/client"
     ],
     "lib": [
-      "dom"
-    ]
+      "dom",
+      "es2015",
+      "DOM.Iterable",
+    ],
+    "target": "ESNext"
   },
 }

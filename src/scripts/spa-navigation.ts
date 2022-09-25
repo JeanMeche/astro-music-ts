@@ -1,13 +1,15 @@
+import scrollIntoView from 'scroll-into-view-if-needed';
+import { NavigateEvent } from './navigation';
 import { getLink, getNavigationType, getPathId, shouldNotIntercept, updateTheDOMSomehow, wait } from './utils';
 
-async function getFragment(toPath): Promise<string> {
+async function getFragment(toPath: string): Promise<string> {
   const response = await fetch(`/fragments${toPath}`);
   const data = await response.text();
 
   return data;
 }
 
-navigation.addEventListener('navigate', (navigateEvent) => {
+navigation.addEventListener('navigate', (navigateEvent: NavigateEvent) => {
   if (shouldNotIntercept(navigateEvent)) return;
 
   const toUrl = new URL(navigateEvent.destination.url);
@@ -29,7 +31,7 @@ navigation.addEventListener('navigate', (navigateEvent) => {
   }
 });
 
-function handleHomeToProductTransition(navigateEvent, toPath) {
+function handleHomeToProductTransition(navigateEvent: NavigateEvent, toPath: string) {
   const handler = async () => {
     if (!document.createDocumentTransition) {
       const data = await getFragment(toPath);
@@ -38,12 +40,16 @@ function handleHomeToProductTransition(navigateEvent, toPath) {
     }
 
     return new Promise<void>(async (resolve) => {
-      const transition = document.createDocumentTransition();
+      const transition: DocumentTransition = document.createDocumentTransition();
       const link = getLink(toPath);
+      if (!link) {
+        return;
+      }
+
       const image = link.querySelector('.product__img');
       const background = link.querySelector('.product__bg');
       let hasShownTemplate = false;
-      let htmlFragment = null;
+      let htmlFragment: string | null = null;
 
       if (image && background) {
         image.classList.add('product-image');
@@ -85,10 +91,10 @@ function handleHomeToProductTransition(navigateEvent, toPath) {
     });
   };
 
-  navigateEvent.transitionWhile(handler());
+  navigateEvent.intercept({ handler: handler });
 }
 
-function handleProductToHomeTransition(navigateEvent, toPath, fromPath) {
+function handleProductToHomeTransition(navigateEvent: NavigateEvent, toPath: string, fromPath: string) {
   const handler = async () => {
     const data = await getFragment(toPath);
 
@@ -98,8 +104,8 @@ function handleProductToHomeTransition(navigateEvent, toPath, fromPath) {
     }
 
     const transition = document.createDocumentTransition();
-    let image;
-    let background;
+    let image: HTMLImageElement | null;
+    let background: Element | null;
 
     transition
       .start(() => {
@@ -112,7 +118,8 @@ function handleProductToHomeTransition(navigateEvent, toPath, fromPath) {
         if (image && background) {
           image.classList.add('product-image');
           background.classList.add('product-bg');
-          image.scrollIntoViewIfNeeded();
+
+          scrollIntoView(image, { behavior: 'smooth', scrollMode: 'if-needed' });
         }
       })
       .then(() => {
@@ -123,5 +130,5 @@ function handleProductToHomeTransition(navigateEvent, toPath, fromPath) {
       });
   };
 
-  navigateEvent.transitionWhile(handler());
+  navigateEvent.intercept({ handler });
 }

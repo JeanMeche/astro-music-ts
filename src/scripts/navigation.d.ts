@@ -157,7 +157,7 @@ interface NavigateEventInit extends EventInit {
 }
 
 interface NavigationInterceptOptions {
-  handler?: () => Promise<undefined>;
+  handler?: () => Promise<void>;
   focusReset?: 'after-transition' | 'manual';
   scroll?: 'after-transition' | 'manual';
 }
@@ -172,7 +172,6 @@ declare class NavigationDestination {
   getState(): unknown;
 }
 
-export {};
 declare global {
   const navigation: Navigation;
 
@@ -191,9 +190,6 @@ declare global {
 }
 
 export interface NavigationEvent extends NavigateEvent {
-  isTrusted: boolean;
-
-  navigationType: any;
   currentTarget: Navigation;
   srcElement: Navigation;
   target: Navigation;
